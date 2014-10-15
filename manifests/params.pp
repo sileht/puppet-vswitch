@@ -8,7 +8,7 @@ class vswitch::params {
       $provider         = 'ovs_redhat'
     }
     'Debian': {
-      $ovs_package_name = ['openvswitch-switch', 'openvswitch-datapath-dkms']
+      $ovs_package_name = 'openvswitch-switch'
       $ovs_service_name = 'openvswitch-switch'
       $provider         = 'ovs'
     }

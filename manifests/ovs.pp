@@ -9,10 +9,10 @@ class vswitch::ovs(
   case $::osfamily {
     'Debian': {
       # OVS doesn't build unless the kernel headers are present.
-      $kernelheaders_pkg = "linux-headers-${::kernelrelease}"
-      if ! defined(Package[$kernelheaders_pkg]) {
-        package { $kernelheaders_pkg: ensure => $package_ensure }
-      }
+      #      $kernelheaders_pkg = "linux-headers-${::kernelrelease}"
+      #      if ! defined(Package[$kernelheaders_pkg]) {
+      #        package { $kernelheaders_pkg: ensure => $package_ensure }
+      #      }
       case $::operatingsystem {
         'ubuntu': {
           $ovs_status = '/sbin/status openvswitch-switch | fgrep "start/running"'
@@ -29,13 +29,13 @@ class vswitch::ovs(
         # Not perfect - should spot if either service is not running - but it'll do
         status      => $ovs_status
       }
-      exec { 'rebuild-ovsmod':
-        command     => '/usr/sbin/dpkg-reconfigure openvswitch-datapath-dkms > /tmp/reconf-log',
-        creates     => "/lib/modules/${::kernelrelease}/updates/dkms/openvswitch_mod.ko",
-        require     => [Package['openvswitch-datapath-dkms', $kernelheaders_pkg]],
-        before      => Package['openvswitch-switch'],
-        refreshonly => true
-      }
+      #exec { 'rebuild-ovsmod':
+      #  command     => '/usr/sbin/dpkg-reconfigure openvswitch-datapath-dkms > /tmp/reconf-log',
+      #  creates     => "/lib/modules/${::kernelrelease}/updates/dkms/openvswitch_mod.ko",
+      #  require     => [Package['openvswitch-datapath-dkms', $kernelheaders_pkg]],
+      #  before      => Package['openvswitch-switch'],
+      #  refreshonly => true
+      #}
     }
     'Redhat': {
       service {'openvswitch':
